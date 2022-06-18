@@ -20,17 +20,17 @@ def get_input_sentence(parser):
 
     return sentence
 
-def get_letter_data(letter, letter_position):
+def get_letter_data(letter, word_position, letter_position):
 
-    sample_size = 1_000 
+    sample_size = 1_000 * 10**word_position
     sample = np.random.uniform(-y_lim, y_lim, (sample_size, 2)).tolist()
-    letter_sample = [((x+2*y_lim*letter_position), y) for (x, y) in sample if assert_funcs[letter]((x, y))]
+    letter_sample = [((x + 2*y_lim*letter_position), y) for (x, y) in sample if assert_funcs[letter]((x, y))]
 
     return letter_sample
 
 def get_word_data(word, word_position):
 
-    word_sample = [get_letter_data(letter, letter_position-(len(word)-1)/2) for letter_position, letter in tqdm(enumerate(word))]
+    word_sample = [get_letter_data(letter, word_position, letter_position-(len(word)-1)/2) for letter_position, letter in tqdm(enumerate(word))]
     word_sample = [(x * 10**word_position, y * 10**word_position) for letter_sample in word_sample for x, y in letter_sample]
 
     return word_sample
@@ -54,6 +54,6 @@ if __name__ == '__main__':
     word_sample = sentence_sample[0]
 
     for word_sample in sentence_sample:
-        plt.scatter(*zip(*word_sample))
+        plt.scatter(*zip(*word_sample), s=0.1)
         
     plt.show()
