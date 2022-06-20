@@ -37,10 +37,8 @@ def get_word_data(word):
 
 def get_random_sample(y_lim, len_word):
 
-    sample_size = 10_000
-    sample = np.random.uniform(-y_lim*len(word)*5, y_lim*len(word)*5, (sample_size, 2)).tolist()
-    # random_sample = [(x, y) for (x, y) in sample if abs(x) > y_lim*len_word/2 and abs(y) > y_lim]
-    random_sample = sample
+    sample_size = 15_000
+    random_sample = np.random.uniform(-y_lim*len_word, y_lim*len_word, (sample_size, 2)).tolist()
 
     return random_sample
 
@@ -48,6 +46,7 @@ if __name__ == '__main__':
 
     import argparse
     import matplotlib.pyplot as plt
+    import matplotlib.animation as animation 
 
     parser = argparse.ArgumentParser(description=__doc__.strip().split('\n')[0], add_help=False)
     parser.add_argument('word', type=str)
@@ -58,7 +57,7 @@ if __name__ == '__main__':
 
     fig, axs = plt.subplots(1, 2, figsize=(16, 8))
     axs[0].scatter(*zip(*(word_sample+random_sample)), s=0.1)  
-    axs[0].set_xlim(-y_lim*len(word), y_lim*len(word))
+    axs[0].set_xlim(-y_lim, y_lim)
     axs[0].set_ylim(-y_lim, y_lim)
-    axs[1].scatter(*zip(*(word_sample+random_sample)), s=0.1)  
+    axs[1].scatter(*zip(*(word_sample+random_sample)), s=0.1)
     plt.show()
