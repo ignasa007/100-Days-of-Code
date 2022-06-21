@@ -22,7 +22,7 @@ def get_input_word(parser):
 
 def get_letter_data(letter, letter_position):
 
-    sample_size = 2_000
+    sample_size = 4_000
     sample = np.random.uniform(-y_lim, y_lim, (sample_size, 2)).tolist()
     letter_sample = [((x + 2*y_lim*letter_position), y) for (x, y) in sample if assert_funcs[letter]((x, y))]
 
@@ -35,10 +35,12 @@ def get_word_data(word):
 
     return word_sample
 
-def get_random_sample(y_lim, len_word):
+def get_random_sample(x_lim, y_lim):
 
-    sample_size = 15_000
-    random_sample = np.random.uniform(-y_lim*len_word, y_lim*len_word, (sample_size, 2)).tolist()
+    sample_size = 16_000
+    x_s = np.random.uniform(-x_lim, x_lim, sample_size).reshape(-1, 1)
+    y_s = np.random.uniform(-y_lim, y_lim, sample_size).reshape(-1, 1)
+    random_sample = np.hstack((x_s, y_s)).tolist()
 
     return random_sample
 
@@ -46,18 +48,22 @@ if __name__ == '__main__':
 
     import argparse
     import matplotlib.pyplot as plt
-    import matplotlib.animation as animation 
 
     parser = argparse.ArgumentParser(description=__doc__.strip().split('\n')[0], add_help=False)
     parser.add_argument('word', type=str)
     word = get_input_word(parser)
 
     word_sample = get_word_data(word.upper())
-    random_sample = get_random_sample(y_lim, len(word))
+    random_x_lim, random_y_lim = y_lim*len(word)*1.5, y_lim*1.5
+    random_sample = get_random_sample(random_x_lim, random_y_lim)
 
-    fig, axs = plt.subplots(1, 2, figsize=(16, 8))
-    axs[0].scatter(*zip(*(word_sample+random_sample)), s=0.1)  
-    axs[0].set_xlim(-y_lim, y_lim)
-    axs[0].set_ylim(-y_lim, y_lim)
-    axs[1].scatter(*zip(*(word_sample+random_sample)), s=0.1)
+    animation_size, num_times = 20, 3
+    x_lims, y_lims = np.linspace(2, random_x_lim, animation_size).tolist(), np.linspace(1, random_y_lim, animation_size).tolist()
+    x_lims, y_lims = x_lims + x_lims[::-1], y_lims + y_lims[::-1]
+
+    plt.scatter(*zip(*(word_sample+random_sample)), s=0.2)
+    for x_lim, y_lim in zip(x_lims*num_times, y_lims*num_times):
+        plt.xlim(-x_lim, x_lim)
+        plt.ylim(-y_lim, y_lim)
+        plt.pause(0.01)
     plt.show()
