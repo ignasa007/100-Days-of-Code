@@ -4,14 +4,7 @@ animation script
 
 from tqdm import tqdm
 import numpy as np
-from assertions import *
-
-assert_funcs = {
-    'A': assert_A,
-    'B': assert_B,
-    'C': assert_C,
-    'D': assert_D
-}
+from assertions import assert_funcs
 
 def get_input_word(parser):
     
