@@ -1,4 +1,5 @@
 -- https://leetcode.com/problems/trips-and-users/
+
 SELECT request_at AS Day, ROUND(SUM(status) / COUNT(*), 2) AS 'Cancellation Rate'
 FROM (
     SELECT IF(Trips.status REGEXP 'cancelled_by_[driver,client]', 1, 0) AS status, Trips.request_at AS request_at

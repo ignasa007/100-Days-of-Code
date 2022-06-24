@@ -1,4 +1,5 @@
 -- https://leetcode.com/problems/nth-highest-salary/
+
 CREATE FUNCTION getNthHighestSalary(N INT) RETURNS INT
 BEGIN
   DECLARE M INT;
