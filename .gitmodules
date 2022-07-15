@@ -1,0 +1,3 @@
+[submodule "day13-day17_vinvl"]
+	path = day13-day17_vinvl
+	url = https://github.com/ignasa007/VinVL-Captioning.git
